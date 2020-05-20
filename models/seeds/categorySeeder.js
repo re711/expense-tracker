@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const Record = require('../record')
-const expenseList = require('../seeds/expense.json')
+const Category = require('../category')
+const categoryList = require('../seeds/category.json')
 mongoose.connect('mongodb://localhost/Expense', { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
 
@@ -9,12 +9,9 @@ db.on('error', () => {
 })
 db.once('open', () => {
   console.log('mongodb connected!')
-  expenseList.results.forEach((records) => {
-    Record.create({
-      name: records.name,
-      category: records.category,
-      date: records.date,
-      amount: records.amount
+  categoryList.results.forEach((category) => {
+    Category.create({
+      category: category.category
     })
   })
   console.log('done')
