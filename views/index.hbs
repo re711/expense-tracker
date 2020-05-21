@@ -1,1 +1,53 @@
-<h2>helle word! 這是 index</h2>
+<div class="container mt-5">
+  <div class="row">
+    <div class="form-group col-md-4">
+      <select id="inputState" class="form-control" onchange="location=this.value;">
+        <option value="/" selected>類別</option>
+        <option {{#categoryIcon name '家居物業'}} selected {{/categoryIcon}} value="/records/家居物業/filter">家居物業</option>
+        <option {{#categoryIcon name '交通出行'}} selected {{/categoryIcon}} value="/record/交通出行/filter">交通出行</option>
+        <option {{#categoryIcon name '休閒娛樂'}} selected {{/categoryIcon}} value="/record/休閒娛樂/filter">休閒娛樂</option>
+        <option {{#categoryIcon name '餐飲食品'}} selected {{/categoryIcon}} value="/record/餐飲食品/filter">餐飲食品</option>
+        <option {{#categoryIcon name '其他'}} selected {{/categoryIcon}} value="其他">其他</option>
+      </select>
+    </div>
+  </div>
+  <div class="row" id="recodeList">
+    <h2 class="totalAmount">總金額:</h2>
+    <h2 class="totalAmount">{{ totalAmount }}</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      {{#each records}}
+        <div class="list-group">
+          <div class="list-group-item col-12 col-md-9">
+            <div class="row">
+                {{#categoryIcon this.category '家居物業'}} <i class="fas fa-home"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '交通出行'}} <i class="fas fa-shuttle-van"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '休閒娛樂'}} <i class="fas fa-grin-beam"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '餐飲食品'}} <i class="fas fa-utensils"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '其他'}} <i class="fas fa-pen"></i> {{/categoryIcon}}
+              <div class="mx-2 mb-0 recordName" style="display: inline; vertical-align: middle;">
+                {{ this.name }}
+                <p>{{ this.date}}</p> 
+              </div>
+              <div class="ml-1">
+                <p>{{ this.amount }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-auto btn-section">
+            <a class="btn btn-success" href="./records/{{ this._id }}/edit">修改</a>
+            <form action="./records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('確定要刪除嗎？')">
+              <button class="btn btn-danger" type="submit">刪除</button>
+            </form>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+  <div class="mt-3">
+    <a class="btn btn-warning" href="./records/new">新增支出</a>
+  </div>
+</div>

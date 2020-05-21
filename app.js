@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+const Handlebars = require('handlebars')
+const Record = require('./models/record')
 
 const app = express()
 const PORT = 3000
@@ -20,7 +22,27 @@ app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
 app.get('/', (req, res) => {
-  res.render('index')
+  let totalAmount = 0
+  Record.find()
+    .lean()
+    // 金額加總
+    .then(items => {
+      items.forEach(item => {
+        totalAmount += item.amount
+      })
+      return items
+    })
+    .then(records => res.render('index', { records, totalAmount }))
+    .catch(error => console.error(error))
+})
+
+// 選擇類別圖示
+Handlebars.registerHelper('categoryIcon', function (categoryName, styleIcon, options) {
+  if (categoryName === styleIcon) {
+    return options.fn(this)
+  } else {
+    return options.inverse(this)
+  }
 })
 
 app.listen(PORT, () => {
