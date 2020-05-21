@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+
 const recordSchema = new Schema({
   name: {
     type: String,
@@ -10,16 +11,20 @@ const recordSchema = new Schema({
     required: true
   },
   date: {
-    type: Date,
-    default: Date.now
+    type: String,
+    required: true
   },
   amount: {
     type: Number,
     required: true
+  },
+  categoryName: {
+    type: String,
+    required: true
+  },
+  icon: {
+    type: String,
+    required: true
   }
-  // totalAmount: {
-  //   type: Number,
-  //   required: true
-  // }
 })
 module.exports = mongoose.model('Record', recordSchema)
