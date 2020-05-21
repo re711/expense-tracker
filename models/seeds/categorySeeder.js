@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Record = require('../record')
+const Category = require('../category')
 mongoose.connect('mongodb://localhost/Expense', { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
 
@@ -10,30 +10,25 @@ db.once('open', () => {
   console.log('mongodb connected!')
 
   const promises = []
-  promises.push(Record.create(
+  promises.push(Category.create(
     {
-      categoryName: '家居物業',
-      icon: '<i class="fas fa-home"></i>'
+      name: '家居物業'
     },
     {
-      categoryName: '交通出行',
-      icon: '<i class="fas fa-shuttle-van"></i>'
+      name: '交通出行'
     },
     {
-      categoryName: '休閒娛樂',
-      icon: '<i class="fas fa-grin-beam"></i>'
+      name: '休閒娛樂'
     },
     {
-      categoryName: '餐飲食品',
-      icon: '<i class="fas fa-utensils"></i>'
+      name: '餐飲食品'
     },
     {
-      categoryName: '其他',
-      icon: '<i class="fas fa-pen"></i>'
+      name: '其他'
     }
   ))
   Promise.all(promises).then(() => {
-    console.log('done')
+    console.log('category done')
     db.close()
   })
 })
