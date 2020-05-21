@@ -4,27 +4,31 @@ const Schema = mongoose.Schema
 const recordSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: false
   },
   category: {
     type: String,
-    required: true
+    required: false
   },
   date: {
     type: String,
-    required: true
+    required: false
   },
   amount: {
     type: Number,
-    required: true
+    required: false
+  },
+  totalAmount: {
+    type: String,
+    required: false
   },
   categoryName: {
     type: String,
-    required: true
+    required: false
   },
   icon: {
     type: String,
-    required: true
+    required: false
   }
 })
 module.exports = mongoose.model('Record', recordSchema)
