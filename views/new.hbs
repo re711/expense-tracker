@@ -1,0 +1,52 @@
+<div class="container mt-5">
+  <h1 class="mb-3">輸入支出</h1>
+  <form action="/records" method="POST"> 
+    <div class="form-group row mb-4">
+      <div class="input-group-append">
+        <label class="col-3 col-form-label">名稱</label>
+        <div class="col-10">
+          <input class="form-control" type="text" id="example-text-input" name="name" required>
+        </div> 
+      </div>
+    </div>
+    <div class="form-group row mb-4">
+      <div class="input-group-append">
+        <label class="col-3 col-form-label">日期</label>
+        <div class="col-10">
+          <input class="form-control" type="date" id="example-text-input" name="date" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row mb-4">
+      <div class="input-group-append">
+        <label class="col-4 col-form-label">類別</label>
+        <div class="col-10">
+          <select class="form-control" name="category" required>
+            <option value="" disabled selected>類別</option>
+            <option value="家居物業">家居物業</option>
+            <option value="交通出行">交通出行</option>
+            <option value="休閒娛樂">休閒娛樂</option>
+            <option value="餐飲食品">餐飲食品</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row mb-4">
+      <div class="input-group-append">
+        <label class="col-3 col-form-label">金額</label>
+        <div class="col-10">
+          <input class="form-control" type="text" id="example-text-input" name="amount" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group-append mb-3">
+      <div class="col-3 text-center">
+        <button class="btn btn-success" type="submit">新增</button>
+      </div>
+    </div>
+  </form>
+</div>
