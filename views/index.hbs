@@ -18,22 +18,22 @@
   </div>
 
   <div class="row mt-2">
-    <div class="col-12">
+    <div class="col">
       {{#each records}}
-        <div class="col-12">
+        <div class="col">
           <div class="list-group">
             <div class="list-group-item" style="background-color: hsla(33, 61%, 83%, 0.699); color: rgb(30, 137, 156);">
-              <div class="row">
-                {{#categoryIcon this.category '家居物業'}} <i class="fas fa-home fa-3x"></i> {{/categoryIcon}}
-                {{#categoryIcon this.category '交通出行'}} <i class="fas fa-shuttle-van fa-3x"></i> {{/categoryIcon}}
-                {{#categoryIcon this.category '休閒娛樂'}} <i class="fas fa-grin-beam fa-3x"></i> {{/categoryIcon}}
-                {{#categoryIcon this.category '餐飲食品'}} <i class="fas fa-utensils fa-3x"></i> {{/categoryIcon}}
-                {{#categoryIcon this.category '其他'}} <i class="fas fa-pen fa-3x"></i> {{/categoryIcon}}
-                <div class="col-5 ml-2">
+              <div class="row col">
+                {{#categoryIcon this.category '家居物業'}} <i class="fas fa-home fa-2x"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '交通出行'}} <i class="fas fa-shuttle-van fa-2x"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '休閒娛樂'}} <i class="fas fa-grin-beam fa-2x"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '餐飲食品'}} <i class="fas fa-utensils fa-2x"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '其他'}} <i class="fas fa-pen fa-2x"></i> {{/categoryIcon}}
+                <div class="col-7">
                   <h4>{{ this.name }}</h4>
                   <p>{{ this.date }}</p> 
                 </div>
-                <div class="col ml-2">
+                <div class="col" style="text-align: right;">
                   <h2>${{ this.amount }}</h2>
                 </div>
               </div>
@@ -52,7 +52,7 @@
       {{/each}}
     </div>
   </div>
-  <div class="mt-3">
+  <div class="mt-3 mb-5">
     <a class="btn btn-warning" href="/records/new">新增支出</a>
   </div>
 </div>
