@@ -47,13 +47,40 @@ Handlebars.registerHelper('categoryIcon', function (categoryName, styleIcon, opt
   }
 })
 
+// 進入新增頁面
 app.get('/records/new', (req, res) => {
   return res.render('new')
 })
 
+// 送出新增表單
 app.post('/records', (req, res) => {
   const { name, category, date, amount } = req.body
   return Record.create({ name, category, date, amount })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
+// 進入修改頁面
+app.get('/records/:id/edit', (req, res) => {
+  const id = req.params.id
+  return Record.findById(id)
+    .lean()
+    .then((record) => res.render('edit', { record }))
+    .catch(error => console.log(error))
+})
+
+// 修改表單
+app.post('/records/:id/edit', (req, res) => {
+  const id = req.params.id
+  const { name, category, date, amount } = req.body
+  return Record.findById(id)
+    .then(record => {
+      record.name = name
+      record.category = category
+      record.date = date
+      record.amount = amount
+      return record.save()
+    })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })

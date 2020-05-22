@@ -22,11 +22,11 @@
         <div class="list-group">
           <div class="list-group-item col-12 col-md-9">
             <div class="row">
-                {{#categoryIcon this.category '家居物業'}} <i class="fas fa-home"></i> {{/categoryIcon}}
-                {{#categoryIcon this.category '交通出行'}} <i class="fas fa-shuttle-van"></i> {{/categoryIcon}}
-                {{#categoryIcon this.category '休閒娛樂'}} <i class="fas fa-grin-beam"></i> {{/categoryIcon}}
-                {{#categoryIcon this.category '餐飲食品'}} <i class="fas fa-utensils"></i> {{/categoryIcon}}
-                {{#categoryIcon this.category '其他'}} <i class="fas fa-pen"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '家居物業'}} <i class="fas fa-home fa-3x"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '交通出行'}} <i class="fas fa-shuttle-van fa-3x"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '休閒娛樂'}} <i class="fas fa-grin-beam fa-3x"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '餐飲食品'}} <i class="fas fa-utensils fa-3x"></i> {{/categoryIcon}}
+                {{#categoryIcon this.category '其他'}} <i class="fas fa-pen fa-3x"></i> {{/categoryIcon}}
               <div class="mx-2 mb-0 recordName" style="display: inline; vertical-align: middle;">
                 {{ this.name }}
                 <p>{{ this.date}}</p> 
@@ -39,7 +39,7 @@
 
           <div class="col-auto btn-section">
             <a class="btn btn-success" href="./records/{{ this._id }}/edit">修改</a>
-            <form action="./records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('確定要刪除嗎？')">
+            <form action="./records/{{ this._id }}/delete" method="POST" style="display: inline;" onsubmit="return confirm('確定要刪除嗎？')">
               <button class="btn btn-danger" type="submit">刪除</button>
             </form>
           </div>
