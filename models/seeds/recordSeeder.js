@@ -1,14 +1,7 @@
-const mongoose = require('mongoose')
 const Record = require('../record')
-mongoose.connect('mongodb://localhost/Expense', { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
+const db = require('../../config/mongoose')
 
-db.on('error', () => {
-  console.log('mongodb error!')
-})
 db.once('open', () => {
-  console.log('mongodb connected!')
-
   const promises = []
   promises.push(Record.create(
     {
