@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const Handlebars = require('handlebars')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 const Record = require('./models/record')
 
 const app = express()
@@ -22,6 +23,7 @@ db.once('open', () => {
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
   let totalAmount = 0
@@ -70,7 +72,7 @@ app.get('/records/:id/edit', (req, res) => {
 })
 
 // 修改表單
-app.post('/records/:id/edit', (req, res) => {
+app.put('/records/:id', (req, res) => {
   const id = req.params.id
   const { name, category, date, amount } = req.body
   return Record.findById(id)
@@ -86,7 +88,7 @@ app.post('/records/:id/edit', (req, res) => {
 })
 
 // 刪除功能
-app.post('/records/:id/delete', (req, res) => {
+app.delete('/records/:id', (req, res) => {
   const id = req.params.id
   return Record.findById(id)
     .then(record => record.remove())
