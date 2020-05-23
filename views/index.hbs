@@ -39,7 +39,7 @@
               </div>
               <div class="col d-flex flex-column align-items-center flex-nowrap">
                 <div class="btn-section">
-                  <a class="btn btn-success" href="./records/{{ this._id }}/edit">修改</a>
+                  <a class="btn btn-success" href="/records/{{ this._id }}/edit">修改</a>
                   <form action="/records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;"
                     onsubmit="return confirm('確定要刪除嗎？')">
                     <button class="btn btn-danger" type="submit">刪除</button>
