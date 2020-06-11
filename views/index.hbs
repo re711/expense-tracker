@@ -1,5 +1,21 @@
-<div class="container mt-3 mx-auto">
-  <div class="d-flex flex-nowrap justify-content-center">
+<div class="container mt-3 mx-auto" style="width: 600px;">
+  <div class="row d-flex flex-nowrap justify-content-center align-items-center">
+    <h1 class="mr-4">總金額：</h1>
+    <h1 class="display-3">${{ totalAmount }}</h1>
+  </div>
+
+  <div class="my-3 d-flex flex-nowrap justify-content-center">
+    <div class="align-items-center col-3">
+      <select id="inputState" class="form-control" onchange="location=this.value;">
+        <option value="/" selected>月份</option>
+        <option {{#categoryIcon name '家居物業'}} selected {{/categoryIcon}} value="/records/家居物業/filter">家居物業</option>
+        <option {{#categoryIcon name '交通出行'}} selected {{/categoryIcon}} value="/records/交通出行/filter">交通出行</option>
+        <option {{#categoryIcon name '休閒娛樂'}} selected {{/categoryIcon}} value="/records/休閒娛樂/filter">休閒娛樂</option>
+        <option {{#categoryIcon name '餐飲食品'}} selected {{/categoryIcon}} value="/records/餐飲食品/filter">餐飲食品</option>
+        <option {{#categoryIcon name '其他'}} selected {{/categoryIcon}} value="/records/其他/filter">其他</option>
+      </select>
+    </div>
+
     <div class="align-items-center col-3">
       <select id="inputState" class="form-control" onchange="location=this.value;">
         <option value="/" selected>類別</option>
@@ -12,49 +28,39 @@
     </div>
   </div>
 
-  <div class="col mt-2">
-      <h1 class="text-left">總金額：</h1>
-      <h1 class="text-center display-3">${{ totalAmount }}</h1>
-  </div>
-
-  <div class="row mt-2">
+  <div class="row">
     <div class="col">
       {{#each records}}
-        <div class="col">
-          <div class="list-group">
-            <div class="list-group-item" style="background-color: hsla(33, 61%, 83%, 0.699); color: rgb(30, 137, 156);">
-              <div class="row col">
-                {{#categoryIcon this.category '家居物業'}} <i class="fas fa-home fa-2x"></i> {{/categoryIcon}}
-                {{#categoryIcon this.category '交通出行'}} <i class="fas fa-shuttle-van fa-2x"></i> {{/categoryIcon}}
-                {{#categoryIcon this.category '休閒娛樂'}} <i class="fas fa-grin-beam fa-2x"></i> {{/categoryIcon}}
-                {{#categoryIcon this.category '餐飲食品'}} <i class="fas fa-utensils fa-2x"></i> {{/categoryIcon}}
-                {{#categoryIcon this.category '其他'}} <i class="fas fa-pen fa-2x"></i> {{/categoryIcon}}
-                <div class="col ml-3">
+        <div class="col my-1">
+            <div class="list-group-item mx-auto" style="background-color: hsla(33, 61%, 83%, 0.699); color: rgb(30, 137, 156);">
+              <div class="row">
+                <div class="col-2">
+                  {{#categoryIcon this.category '家居物業'}} <i class="fas fa-home fa-3x"></i> {{/categoryIcon}}
+                  {{#categoryIcon this.category '交通出行'}} <i class="fas fa-shuttle-van fa-3x"></i> {{/categoryIcon}}
+                  {{#categoryIcon this.category '休閒娛樂'}} <i class="fas fa-grin-beam fa-3x"></i> {{/categoryIcon}}
+                  {{#categoryIcon this.category '餐飲食品'}} <i class="fas fa-utensils fa-3x"></i> {{/categoryIcon}}
+                  {{#categoryIcon this.category '其他'}} <i class="fas fa-pen fa-3x"></i> {{/categoryIcon}}
+                </div>
+                <div class="col-5">
                   <h4>{{ this.name }}</h4>
                   <p>{{ this.date }}</p> 
                 </div>
-                <div class="row">
+                <div class="col-4">
                   <h2>${{ this.amount }}</h2>
-              <div class="col ml-5">
-                <div class="btn-section">
-                  <a class="btn btn-success mb-1" href="/records/{{ this._id }}/edit">修改</a>
-                  <form action="/records/{{ this._id }}?_method=DELETE" method="POST"
-                    onsubmit="return confirm('確定要刪除嗎？')">
-                    <button class="btn btn-danger" type="submit">刪除</button>
-                  </form>
+                  <p>TEST</p>
                 </div>
-              </div>
-                </div>
+                  <div class="row">
+                    <div class="btn-section">
+                      <a class="btn btn-success mb-1" href="/records/{{ this._id }}/edit">修改</a>
+                      <form action="/records/{{ this._id }}?_method=DELETE" method="POST"
+                        onsubmit="return confirm('確定要刪除嗎？')">
+                        <button class="btn btn-danger" type="submit">刪除</button>
+                      </form>
+                    </div>
+                  </div>
               </div>
             </div>
-
-          </div>
         </div>
-              
-            
-          
-        
-        
       {{/each}}
     </div>
   </div>
