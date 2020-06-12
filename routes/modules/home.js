@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const moment = require('moment')
 const Record = require('../../models/record')
 
 // 首頁
@@ -11,6 +12,7 @@ router.get('/', (req, res) => {
     .then(items => {
       items.forEach(item => {
         totalAmount += item.amount
+        item.date = moment(item.date).format('YYYY-MM-DD')
       })
       return items
     })

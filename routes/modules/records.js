@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const moment = require('moment')
 const Record = require('../../models/record')
 
 // 進入新增頁面
@@ -20,7 +21,10 @@ router.get('/:id/edit', (req, res) => {
   const id = req.params.id
   return Record.findById(id)
     .lean()
-    .then((record) => res.render('edit', { record }))
+    .then((record) => {
+      record.date = moment(record.date).format('YYYY-MM-DD')
+      return res.render('edit', { record })
+    })
     .catch(error => console.log(error))
 })
 
@@ -49,7 +53,7 @@ router.delete('/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
-// 篩選功能
+// 篩選類別功能
 router.get('/:id/filter', (req, res) => {
   const id = req.params.id
   let totalAmount = 0
@@ -58,11 +62,50 @@ router.get('/:id/filter', (req, res) => {
     .then(items => {
       items.forEach(item => {
         totalAmount += item.amount
+        item.date = moment(item.date).format('YYYY-MM-DD')
       })
       return items
     })
     .then(records => res.render('index', { records, totalAmount, id }))
     .catch(error => console.log(error))
+})
+
+// 篩選月份功能
+router.get('/month', (req, res) => {
+  const filter = req.query.filter
+  const amountFilter = Record.aggregate([
+    {
+      $group: {
+        _id: { $month: '$date' },
+        amount: { $sum: '$amount' }
+      }
+    },
+    { $match: { _id: Number(filter) } }
+  ]).exec()
+  const monthFilter = Record.aggregate([
+    {
+      $project: {
+        name: 1,
+        category: 1,
+        date: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },
+        month: { $month: '$date' },
+        amount: 1
+      }
+    },
+    { $match: { month: Number(filter) } }
+  ]).exec()
+
+  if (filter) {
+    Promise.all([amountFilter, monthFilter])
+      .then(([amountFilter, records]) => {
+        const totalAmount = amountFilter[0]
+        res.render('index', { totalAmount, records, filter })
+      })
+      .catch(error => console.log(error))
+  } else {
+    Promise.all(([amountFilter, monthFilter]))
+      .then(() => res.redirect('/'))
+  }
 })
 
 module.exports = router
