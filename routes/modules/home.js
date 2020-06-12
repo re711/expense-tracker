@@ -8,6 +8,7 @@ router.get('/', (req, res) => {
   let totalAmount = 0
   Record.find()
     .lean()
+    .sort({ date: 'asc' })
     // 金額加總
     .then(items => {
       items.forEach(item => {

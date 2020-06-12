@@ -10,8 +10,8 @@ router.get('/new', (req, res) => {
 
 // 送出新增表單
 router.post('/', (req, res) => {
-  const { name, category, date, amount } = req.body
-  return Record.create({ name, category, date, amount })
+  const { name, category, date, amount, merchant } = req.body
+  return Record.create({ name, category, date, amount, merchant })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
@@ -31,13 +31,14 @@ router.get('/:id/edit', (req, res) => {
 // 修改表單
 router.put('/:id', (req, res) => {
   const id = req.params.id
-  const { name, category, date, amount } = req.body
+  const { name, category, date, amount, merchant } = req.body
   return Record.findById(id)
     .then(record => {
       record.name = name
       record.category = category
       record.date = date
       record.amount = amount
+      record.merchant = merchant
       return record.save()
     })
     .then(() => res.redirect('/'))
@@ -89,7 +90,8 @@ router.get('/month', (req, res) => {
         category: 1,
         date: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },
         month: { $month: '$date' },
-        amount: 1
+        amount: 1,
+        merchant: 1
       }
     },
     { $match: { month: Number(filter) } }
