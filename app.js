@@ -3,6 +3,7 @@ const exphbs = require('express-handlebars')
 const Handlebars = require('handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+const session = require('express-session')
 
 const routes = require('./routes')
 require('./config/mongoose')
@@ -17,8 +18,13 @@ app.engine('hbs', exphbs({
     eq: function (v1, v2) { return (v1 === v2) }
   }
 }))
-
 app.set('view engine', 'hbs')
+
+app.use(session({
+  secret: 'ThisIsMySecret',
+  resave: false,
+  saveUninitialized: true
+}))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(routes)
