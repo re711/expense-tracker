@@ -1,24 +1,25 @@
 <div class="container mx-auto" style="width: 500px;">
   <h1 class="text-center display-3 mb-4">新增支出</h1>
+  {{> message}}
   <form action="/records" method="POST"> 
     <div class="form-group row mb-4">
       <label for="name" class="col-2 col-form-label">名稱</label>
       <div class="col-8">
-        <input class="form-control" type="text" id="name" name="name" required>
+        <input class="form-control" type="text" id="name" name="name" value="{{name}}">
       </div> 
     </div>
 
     <div class="form-group row mb-4">
       <label for="date" class="col-2 col-form-label">日期</label>
       <div class="col-8">
-        <input class="form-control" type="date" id="date" name="date" required>
+        <input class="form-control" type="date" id="date" name="date" value="{{date}}">
       </div>
     </div>
 
     <div class="form-group row mb-4">
       <label for="category" class="col-2 col-form-label">類別</label>
       <div class="col-8">
-        <select class="form-control" id="category" name="category" required>
+        <select class="form-control" id="category" name="category" value="{{category}}">
           <option value="" disabled selected>類別</option>
           <option value="家居物業">家居物業</option>
           <option value="交通出行">交通出行</option>
@@ -32,14 +33,14 @@
     <div class="form-group row mb-4">
       <label for="amount" class="col-2 col-form-label">金額</label>
       <div class="col-8">
-        <input class="form-control" type="number" id="amount" name="amount" min="0" required>
+        <input class="form-control" type="number" id="amount" name="amount" min="0" value="{{amount}}">
       </div>
     </div>
 
     <div class="form-group row mb-4">
       <label for="merchant" class="col-2 col-form-label">商家</label>
       <div class="col-8">
-        <input class="form-control" type="text" id="merchant" name="merchant" required>
+        <input class="form-control" type="text" id="merchant" name="merchant" value="{{merchant}}">
       </div>
     </div>
 

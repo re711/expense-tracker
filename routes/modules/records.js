@@ -12,6 +12,20 @@ router.get('/new', (req, res) => {
 router.post('/', (req, res) => {
   const userId = req.user._id
   const { name, category, date, amount, merchant } = req.body
+  const errors = []
+  if (!name || !category || !date || !amount) {
+    errors.push({ message: '除商家外、其他欄位必填！' })
+  }
+  if (errors.length) {
+    return res.render('new', {
+      errors,
+      name,
+      category,
+      date,
+      amount,
+      merchant
+    })
+  }
   return Record.create({
     userId,
     name,
@@ -32,7 +46,7 @@ router.get('/:id/edit', (req, res) => {
     .lean()
     .then((record) => {
       record.date = moment(record.date).format('YYYY-MM-DD')
-      return res.render('edit', { record })
+      res.render('edit', { record })
     })
     .catch(error => console.log(error))
 })
@@ -49,7 +63,7 @@ router.put('/:id', (req, res) => {
       record.date = date
       record.amount = amount
       record.merchant = merchant
-      return record.save()
+      record.save()
     })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
