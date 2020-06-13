@@ -6,6 +6,8 @@ const methodOverride = require('method-override')
 const session = require('express-session')
 
 const routes = require('./routes')
+
+const userPassport = require('./config/passport')
 require('./config/mongoose')
 
 const app = express()
@@ -19,16 +21,6 @@ app.engine('hbs', exphbs({
   }
 }))
 app.set('view engine', 'hbs')
-
-app.use(session({
-  secret: 'ThisIsMySecret',
-  resave: false,
-  saveUninitialized: true
-}))
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(methodOverride('_method'))
-app.use(routes)
-
 // 選擇類別 Icon
 Handlebars.registerHelper('categoryIcon', function (categoryName, styleIcon, options) {
   if (categoryName === styleIcon) {
@@ -37,6 +29,19 @@ Handlebars.registerHelper('categoryIcon', function (categoryName, styleIcon, opt
     return options.inverse(this)
   }
 })
+
+app.use(session({
+  secret: 'ThisIsMySecret',
+  resave: false,
+  saveUninitialized: true
+}))
+
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
+
+userPassport(app)
+
+app.use(routes)
 
 app.listen(PORT, () => {
   console.log(`App is running on http://localhost:${PORT}`)
