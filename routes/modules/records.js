@@ -10,16 +10,25 @@ router.get('/new', (req, res) => {
 
 // 送出新增表單
 router.post('/', (req, res) => {
+  const userId = req.user._id
   const { name, category, date, amount, merchant } = req.body
-  return Record.create({ name, category, date, amount, merchant })
+  return Record.create({
+    userId,
+    name,
+    category,
+    date,
+    amount,
+    merchant
+  })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
 
 // 進入修改頁面
 router.get('/:id/edit', (req, res) => {
-  const id = req.params.id
-  return Record.findById(id)
+  const userId = req.user._id
+  const _id = req.params.id
+  return Record.findOne({ _id, userId })
     .lean()
     .then((record) => {
       record.date = moment(record.date).format('YYYY-MM-DD')
@@ -30,9 +39,10 @@ router.get('/:id/edit', (req, res) => {
 
 // 修改表單
 router.put('/:id', (req, res) => {
-  const id = req.params.id
+  const userId = req.user._id
+  const _id = req.params.id
   const { name, category, date, amount, merchant } = req.body
-  return Record.findById(id)
+  return Record.findOne({ _id, userId })
     .then(record => {
       record.name = name
       record.category = category
@@ -47,8 +57,9 @@ router.put('/:id', (req, res) => {
 
 // 刪除功能
 router.delete('/:id', (req, res) => {
-  const id = req.params.id
-  return Record.findById(id)
+  const userId = req.user._id
+  const _id = req.params.id
+  return Record.findOne({ _id, userId })
     .then(record => record.remove())
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
@@ -56,9 +67,10 @@ router.delete('/:id', (req, res) => {
 
 // 篩選類別功能
 router.get('/:id/filter', (req, res) => {
-  const id = req.params.id
+  const userId = req.user._id
+  const _id = req.params.id
   let totalAmount = 0
-  Record.find({ category: id })
+  Record.find({ category: _id, userId })
     .lean()
     .then(items => {
       items.forEach(item => {
@@ -67,14 +79,16 @@ router.get('/:id/filter', (req, res) => {
       })
       return items
     })
-    .then(records => res.render('index', { records, totalAmount, id }))
+    .then(records => res.render('index', { records, totalAmount, _id }))
     .catch(error => console.log(error))
 })
 
 // 篩選月份功能
 router.get('/month', (req, res) => {
+  const userId = req.user._id
   const filter = req.query.filter
   const amountFilter = Record.aggregate([
+    { $match: { userId } },
     {
       $group: {
         _id: { $month: '$date' },
@@ -84,6 +98,7 @@ router.get('/month', (req, res) => {
     { $match: { _id: Number(filter) } }
   ]).exec()
   const monthFilter = Record.aggregate([
+    { $match: { userId } },
     {
       $project: {
         name: 1,
