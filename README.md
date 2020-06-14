@@ -20,11 +20,20 @@
 2. 新增一筆支出紀錄。
 3. 編輯修改支出紀錄。
 4. 刪除任意一筆支出紀錄。
-5. 篩選支出"類別"、總金額的計算只會包括被篩選出來的支出總和。 
+5. 篩選支出"類別"、總金額的計算只會包括被篩選出來的支出總和。
+6. 新增使用"月份"篩選功能
+7. 新增使用Email或Facebook註冊帳號
 
+# 測試帳號
+```
+email: root@example.com
+password: 12345678
+```
 # 工具
 * Node.js
 * Express
 * Express-handlebars
 * Bootstrap
 * Mongodb
+* express-session
+* passport
