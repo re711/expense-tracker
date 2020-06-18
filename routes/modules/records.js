@@ -150,6 +150,17 @@ router.get('/filter', (req, res) => {
     }
   ]).exec()
 
+  const amountFilter2 = Record.aggregate([
+    { $match: { userId, category } },
+    {
+      $group: {
+        _id: { $month: '$date' },
+        amount: { $sum: '$amount' }
+      }
+    },
+    { $match: { _id: Number(month) } }
+  ]).exec()
+
   const monthAndCate = Record.aggregate([
     { $match: { userId, category } },
     {
@@ -166,9 +177,9 @@ router.get('/filter', (req, res) => {
   ])
 
   if (month && category) {
-    Promise.all([amountFilter1, monthAndCate])
-      .then(([amountFilter1, records]) => {
-        const totalAmount = amountFilter1[0]
+    Promise.all([amountFilter2, monthAndCate])
+      .then(([amountFilter2, records]) => {
+        const totalAmount = amountFilter2[0]
         res.render('index', { totalAmount, records, month, category })
       })
       .catch(error => console.log(error))
