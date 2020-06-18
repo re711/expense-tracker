@@ -80,27 +80,27 @@ router.delete('/:id', (req, res) => {
 })
 
 // 篩選類別功能
-router.get('/:id/filter', (req, res) => {
-  const userId = req.user._id
-  const _id = req.params.id
-  let totalAmount = 0
-  Record.find({ category: _id, userId })
-    .lean()
-    .then(items => {
-      items.forEach(item => {
-        totalAmount += item.amount
-        item.date = moment(item.date).format('YYYY-MM-DD')
-      })
-      return items
-    })
-    .then(records => res.render('index', { records, totalAmount, _id }))
-    .catch(error => console.log(error))
-})
+// router.get('/:id/filter', (req, res) => {
+//   const userId = req.user._id
+//   const _id = req.params.id
+//   let totalAmount = 0
+//   Record.find({ category: _id, userId })
+//     .lean()
+//     .then(items => {
+//       items.forEach(item => {
+//         totalAmount += item.amount
+//         item.date = moment(item.date).format('YYYY-MM-DD')
+//       })
+//       return items
+//     })
+//     .then(records => res.render('index', { records, totalAmount, _id }))
+//     .catch(error => console.log(error))
+// })
 
-// 篩選月份功能
-router.get('/month', (req, res) => {
+// 篩選功能
+router.get('/filter', (req, res) => {
   const userId = req.user._id
-  const filter = req.query.filter
+  const { category, month } = req.query
   const amountFilter = Record.aggregate([
     { $match: { userId } },
     {
@@ -109,8 +109,9 @@ router.get('/month', (req, res) => {
         amount: { $sum: '$amount' }
       }
     },
-    { $match: { _id: Number(filter) } }
+    { $match: { _id: Number(month) } }
   ]).exec()
+
   const monthFilter = Record.aggregate([
     { $match: { userId } },
     {
@@ -123,19 +124,70 @@ router.get('/month', (req, res) => {
         merchant: 1
       }
     },
-    { $match: { month: Number(filter) } }
+    { $match: { month: Number(month) } }
   ]).exec()
 
-  if (filter) {
+  const amountFilter1 = Record.aggregate([
+    { $match: { userId, category } },
+    {
+      $group: {
+        _id: null,
+        amount: { $sum: '$amount' }
+      }
+    }
+  ]).exec()
+
+  const categoryFilter = Record.aggregate([
+    { $match: { userId, category } },
+    {
+      $project: {
+        name: 1,
+        category: 1,
+        date: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },
+        amount: 1,
+        merchant: 1
+      }
+    }
+  ]).exec()
+
+  const monthAndCate = Record.aggregate([
+    { $match: { userId, category } },
+    {
+      $project: {
+        name: 1,
+        category: 1,
+        date: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },
+        month: { $month: '$date' },
+        amount: 1,
+        merchant: 1
+      }
+    },
+    { $match: { month: Number(month) } }
+  ])
+
+  if (month && category) {
+    Promise.all([amountFilter1, monthAndCate])
+      .then(([amountFilter1, records]) => {
+        const totalAmount = amountFilter1[0]
+        res.render('index', { totalAmount, records, month, category })
+      })
+      .catch(error => console.log(error))
+  } else if (category) {
+    Promise.all([amountFilter1, categoryFilter])
+      .then(([amountFilter1, records]) => {
+        const totalAmount = amountFilter1[0]
+        res.render('index', { totalAmount, records, category })
+      })
+      .catch(error => console.log(error))
+  } else if (month) {
     Promise.all([amountFilter, monthFilter])
       .then(([amountFilter, records]) => {
         const totalAmount = amountFilter[0]
-        res.render('index', { totalAmount, records, filter })
+        res.render('index', { totalAmount, records, month })
       })
       .catch(error => console.log(error))
   } else {
-    Promise.all(([amountFilter, monthFilter]))
-      .then(() => res.redirect('/'))
+    Promise.all([amountFilter, categoryFilter]).then(() => res.redirect('/'))
   }
 })
 

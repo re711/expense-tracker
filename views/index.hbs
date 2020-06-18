@@ -1,45 +1,39 @@
 <div class="container mt-3 mx-auto" style="width: 600px;">
   <div class="row d-flex flex-nowrap justify-content-center align-items-center">
     <h1 class="mr-4">總金額：</h1>
-    <h1 class="display-3">$
-      {{#if filter}}
-      {{ totalAmount.amount }}
-      {{else}}
-      {{ totalAmount }}
-      {{/if}}
-    </h1>
+    <h1 class="display-3">$ {{ totalAmount.amount }}</h1>
   </div>
 
   <div class="my-3 d-flex flex-nowrap justify-content-center">
     <div class="align-items-center col-3">
-      <form action="/records/month" method="GET">
-        <select name="filter" id="inputState" class="form-control" onchange="this.form.submit()">
+      <form action="/records/filter" method="GET">
+        <select name="month" id="inputState" class="form-control" onchange="this.form.submit()">
           <option value="" selected>月份</option>
-          <option {{#if (eq filter '1')}} selected {{/if}} value="1">一月</option>
-          <option {{#if (eq filter '2')}} selected {{/if}} value="2">二月</option>
-          <option {{#if (eq filter '3')}} selected {{/if}} value="3">三月</option>
-          <option {{#if (eq filter '4')}} selected {{/if}} value="4">四月</option>
-          <option {{#if (eq filter '5')}} selected {{/if}} value="5">五月</option>
-          <option {{#if (eq filter '6')}} selected {{/if}} value="6">六月</option>
-          <option {{#if (eq filter '7')}} selected {{/if}} value="7">七月</option>
-          <option {{#if (eq filter '8')}} selected {{/if}} value="8">八月</option>
-          <option {{#if (eq filter '9')}} selected {{/if}} value="9">九月</option>
-          <option {{#if (eq filter '10')}} selected {{/if}} value="10">十月</option>
-          <option {{#if (eq filter '11')}} selected {{/if}} value="11">十一月</option>
-          <option {{#if (eq filter '12')}} selected {{/if}} value="12">十二月</option>
+          <option {{#if (eq month '1')}} selected {{/if}} value="1">一月</option>
+          <option {{#if (eq month '2')}} selected {{/if}} value="2">二月</option>
+          <option {{#if (eq month '3')}} selected {{/if}} value="3">三月</option>
+          <option {{#if (eq month '4')}} selected {{/if}} value="4">四月</option>
+          <option {{#if (eq month '5')}} selected {{/if}} value="5">五月</option>
+          <option {{#if (eq month '6')}} selected {{/if}} value="6">六月</option>
+          <option {{#if (eq month '7')}} selected {{/if}} value="7">七月</option>
+          <option {{#if (eq month '8')}} selected {{/if}} value="8">八月</option>
+          <option {{#if (eq month '9')}} selected {{/if}} value="9">九月</option>
+          <option {{#if (eq month '10')}} selected {{/if}} value="10">十月</option>
+          <option {{#if (eq month '11')}} selected {{/if}} value="11">十一月</option>
+          <option {{#if (eq month '12')}} selected {{/if}} value="12">十二月</option>
+        </select>
+      </div>
+  
+      <div class="align-items-center col-3">
+        <select name="category" id="inputState" class="form-control" onchange="this.form.submit()">
+          <option value="" selected>類別</option>
+          <option {{#categoryIcon category '家居物業'}} selected {{/categoryIcon}} value="家居物業">家居物業</option>
+          <option {{#categoryIcon category '交通出行'}} selected {{/categoryIcon}} value="交通出行">交通出行</option>
+          <option {{#categoryIcon category '休閒娛樂'}} selected {{/categoryIcon}} value="休閒娛樂">休閒娛樂</option>
+          <option {{#categoryIcon category '餐飲食品'}} selected {{/categoryIcon}} value="餐飲食品">餐飲食品</option>
+          <option {{#categoryIcon category '其他'}} selected {{/categoryIcon}} value="其他">其他</option>
         </select>
       </form>
-    </div>
-  
-    <div class="align-items-center col-3">
-      <select id="inputState" class="form-control" onchange="location=this.value;">
-        <option value="/" selected>類別</option>
-        <option {{#categoryIcon _id '家居物業'}} selected {{/categoryIcon}} value="/records/家居物業/filter">家居物業</option>
-        <option {{#categoryIcon _id '交通出行'}} selected {{/categoryIcon}} value="/records/交通出行/filter">交通出行</option>
-        <option {{#categoryIcon _id '休閒娛樂'}} selected {{/categoryIcon}} value="/records/休閒娛樂/filter">休閒娛樂</option>
-        <option {{#categoryIcon _id '餐飲食品'}} selected {{/categoryIcon}} value="/records/餐飲食品/filter">餐飲食品</option>
-        <option {{#categoryIcon _id '其他'}} selected {{/categoryIcon}} value="/records/其他/filter">其他</option>
-      </select>
     </div>
   </div>
 
